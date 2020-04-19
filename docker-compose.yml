@@ -1,0 +1,22 @@
+
+version: '3'
+services:
+  app:
+    container_name: docker-node-mongo
+    restart: always
+    build: .
+    ports:
+      - '3300:3300'
+    volumes: 
+        - './:/usr/src/app' 
+    external_links:
+      - mongo
+  mongo:
+    restart: always
+    container_name: mongo
+    image: mongo
+    volumes: 
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo-js:ro
+      - ./mongo-volume:/data/db
+    ports:
+      - '27017:27017'

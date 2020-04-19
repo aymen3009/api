@@ -1,0 +1,113 @@
+[
+    
+    {
+        "phone":"29787582",
+        "email": "timou3009@gmail.com",
+        "name": "Aymen",
+        "cin": "13473678",
+        "cind": "09-06-2015",
+        "bdate": "30-09-1997",
+        "id": "1601710",
+        "degree": "licence",
+        "classe": "ars3"
+    },
+    {
+        "phone":"29787582",
+        "email": "medberkaoui96@gmail.com",
+        "name": "shayma",
+        "cin": "13473678",
+        "cind": "09-06-2015",
+        "bdate": "30-09-1997",
+        "id": "1601711",
+        "degree": "licence",
+        "classe": "ars2"
+    },
+    {
+        "phone":"29787582",
+        "email": "test3@gmail.com",
+        "name": "hamma",
+        "cin": "13473678",
+        "cind": "09-06-2015",
+        "bdate": "30-09-1997",
+        "id": "1601712",
+        "degree": "licence",
+        "classe": "lai2"
+    },
+    {
+        "phone":"29787582",
+        "email": "ldrajmioussema2@gmail.com",
+        "name": "rounda",
+        "cin": "13473678",
+        "cind": "09-06-2015",
+        "bdate": "30-09-1997",
+        "id": "160171354",
+        "degree": "licence",
+        "classe": "lai3"
+    },
+    {
+        "phone":"29787582",
+        "email": "test5@gmail.com",
+        "name": "horchani",
+        "cin": "13473678",
+        "cind": "09-06-2015",
+        "bdate": "30-09-1997",
+        "id": "1601714",
+        "degree": "licence",
+        "classe": "lfi3"
+    },
+    {
+        "phone":"29787582",
+        "email": "test6@gmail.com",
+        "name": "mymoushka",
+        "cin": "13473678",
+        "cind": "09-06-2015",
+        "bdate": "30-09-1997",
+        "id": "1601715",
+        "degree": "master ",
+        "classe": "master5"
+    },
+    {
+        "phone":"29787582",
+        "email": "test7@gmail.com",
+        "name": "safe",
+        "cin": "13473678",
+        "cind": "09-06-2015",
+        "bdate": "30-09-1997",
+        "id": "1601716",
+        "degree": "master",
+        "classe": "master1"
+    },
+    {
+        "phone":"29787582",
+        "email": "test8@gmail.com",
+        "name": "fatma",
+        "cin": "13473678",
+        "cind": "09-06-2015",
+        "bdate": "30-09-1997",
+        "id": "1601717",
+        "degree": "master",
+        "classe": "master2"
+    },
+    {
+        "phone":"29787582",
+        "email": "test9@gmail.com",
+        "name": "zaaim",
+        "cin": "13473678",
+        "cind": "09-06-2015",
+        "bdate": "30-09-1997",
+        "id": "1601718",
+        "degree": "master",
+        "classe": "master3"
+    },
+    {
+        "phone":"29787582",
+        "email": "test10@gmail.com",
+        "name": "miha",
+        "cin": "13473678",
+        "cind": "09-06-2015",
+        "bdate": "30-09-1997",
+        "id": "1601719",
+        "degree": "master",
+        "classe": "master4"
+    }
+]
