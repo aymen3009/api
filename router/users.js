@@ -28,11 +28,11 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false,
     auth: {
-      user: 'norepaly@welcomedjerba.tn',
-      pass: 'Timoux1997?'
+        user: 'norepaly@welcomedjerba.tn',
+        pass: 'Timoux1997?'
     },
-    tls:{
-        rejectUnauthorized:false,
+    tls: {
+        rejectUnauthorized: false,
     }
 });
 const upload = multer({ storage: storage, fileFilter: fileFilter })
@@ -63,7 +63,7 @@ router.post('/register', async (req, res) => {
         profileURL: "",
         studentid: student.id
     });
-    let url = 'http://localhost:8000/student/create';
+    let url = 'http://192.168.100.50:8000/student/create';
     let obj = {
         id: student.id,
         cin: student.cin,
@@ -81,23 +81,25 @@ router.post('/register', async (req, res) => {
 
 
                     const savedUser = await user.save();
-                    JWT.sign({ _id: savedUser._id },process.env.TOKEN_SECRET,{ expiresIn: '1d'}, (err, emailToken) => {
-                            const urll = `http://192.168.100.50:${process.env.PORT}/password/confirmation/${emailToken}`;
-                          transporter.sendMail({
-                                from:'"DUVoS TEAM " <norepaly@welcomedjerba.tn>',
-                                to: req.body.email,
-                                subject: 'Confirm Email For Your DUVoS Account',
-                                html: `Please click this email to confirm your email: <a href="${urll}">${urll}</a>`,
-                              },(errr,info)=>{
-                                if(errr){
-                                    console.log(errr);
-                                    return res.status(400).json({ message: { error: errr } });
+                    JWT.sign({ _id: savedUser._id }, process.env.TOKEN_SECRET, { expiresIn: '1d' }, (err, emailToken) => {
+                        const urll = `http://192.168.100.50:${process.env.PORT}/password/confirmation/${emailToken}`;
+                        transporter.sendMail({
+                            from: '"DUVoS TEAM " <norepaly@welcomedjerba.tn>',
+                            to: req.body.email,
+                            subject: 'Confirm Email For Your DUVoS Account',
+                            html: `Please click this email to confirm your email: <a href="${urll}">${urll}</a>`,
+                        }, (errr, info) => {
+                            if (errr) {
+                                console.log(errr);
+                                return res.status(400).json({ message: { error: errr } });
 
-                                }
-                                console.log(info);
-                                return res.status(201).json({ user: savedUser._id });})}
+                            }
+                            console.log(info);
+                            return res.status(201).json({ user: savedUser._id });
+                        })
+                    }
 
-                              ); 
+                    );
                 } catch (err) {
                     return res.status(400).json({ message: { error: err } });
                 }
@@ -130,16 +132,16 @@ router.post('/login', async (req, res) => {
     if (!validPass) return res.status(400).json({ message: { error: 'Email or password is incorrect' } })
     //JWt
     const token = JWT.sign({ _id: exist._id, type: "user" }, process.env.TOKEN_SECRET);
-    res.status(200).json({token:token})
+    res.status(200).json({ token: token })
 
 });
 
 router.patch('/', verify_JWT, async (req, res, next) => {
     try {
         const id = req.user._id;
-
+        const salt = await bcrypt.genSalt(10);
         const hashed = await bcrypt.hash(req.body.newpassword, salt);
-        User.findByIdAndUpdate({ id }, { "password": hashed })
+        User.findOneAndUpdate({ _id: id }, { "password": hashed })
             .then(res.status(200).json({ message: req.user }))
             .catch(err => res.status(500).json({ message: { error: err } }))
 
@@ -152,7 +154,7 @@ router.patch('/', verify_JWT, async (req, res, next) => {
 router.post('/profile', verify_JWT, upload.single('profilePic'), (req, res, next) => {
     try {
         const id = req.user._id;
-        User.findOneAndUpdate({ _id: id }, { $addToSet: { "profileURL": req.file.path } })
+        User.findOneAndUpdate({ _id: id }, { "profileURL": req.file.path })
             .then(
                 res.status(200).json({ profileURL: `http://192.168.100.50:${process.env.PORT}/` + req.file.path })
             )
@@ -178,7 +180,7 @@ router.post('/admin', async (req, res) => {
     if (!validPass) return res.status(400).json({ message: { error: 'Email or password is incorrect' } })
     //JWt
     const token = JWT.sign({ _id: exist._id, type: "admin" }, process.env.TOKEN_SECRET);
-    res.json({ _id: exist._id , token:token});
+    res.json({ _id: exist._id, token: token });
 });
 
 router.patch('/admin', verify_JWT, async (req, res, next) => {
@@ -186,7 +188,7 @@ router.patch('/admin', verify_JWT, async (req, res, next) => {
         const id = req.user._id;
         const salt = await bcrypt.genSalt(10);
         const hashed = await bcrypt.hash(req.body.newpassword, salt);
-        Admin.findByIdAndUpdate({ id }, { "password": hashed })
+        Admin.findOneAndUpdate({ _id: id }, { "password": hashed })
             .then(res.status(200).json({}))
             .catch(err => res.status(500).json({ message: { error: err } }))
 
@@ -198,10 +200,10 @@ router.patch('/admin', verify_JWT, async (req, res, next) => {
 router.post('/admin/profile', verify_JWT, upload.single('profilePic'), (req, res, next) => {
     try {
         const id = req.user._id;
-        Admin.findOneAndUpdate({ _id: id }, { $addToSet: { "profileURL": req.file.path } })
-            .then(
+        Admin.findOneAndUpdate({ _id: id }, { "profileURL": req.file.path })
+            .then(r => {
                 res.status(200).json({ profileURL: `http://192.168.100.50:${process.env.PORT}/` + req.file.path })
-            )
+            })
             .catch(err => res.status(500).json({ message: { error: err } }));
     } catch (err) {
         console.log(err);
@@ -229,9 +231,7 @@ const Aupload = multer({ storage: Astorage, fileFilter: AfileFilter })
 
 const admin_JWT = require('../validation/adminjwt')
 
-router.post('/admin/data', admin_JWT, Aupload.single('data'), (req, res, next) => {
-    res.status(201).json({});
-});
+
 
 router.use('/admin/add', async (req, res) => {
     const salt = await bcrypt.genSalt(10);

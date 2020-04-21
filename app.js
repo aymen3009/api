@@ -10,11 +10,15 @@ const blockchain = require('./router/blockchain');
 const pass = require('./router/password');
 
 dotenv.config();
+app.set("view engine", "ejs");
 
 
 mongoose.connect(process.env.DB_DOC,
     { useNewUrlParser: true, useFindAndModify: false  , useUnifiedTopology: true,useCreateIndex: true },
-    () => console.log('connected to db!!')
+    (err) =>{
+    if(err) console.log(err);
+     else
+    console.log('connected to db!!')}
 );
 mongoose.Promise = global.Promise ;
 app.use(morgan('dev'));
@@ -40,9 +44,12 @@ app.use((req, res, next) => {
 
 app.use((error, req , res, next) => {
     res.status(error.name || 500);
+    console.log(req);
     res.json({
         error:
         {
+            
+            
             message: error.message
         }
     })
