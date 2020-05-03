@@ -128,6 +128,7 @@ router.post('/login', async (req, res) => {
     const exist = await User.findOne({ email: req.body.email });
     if (!exist) return res.status(400).json({ message: { error: 'Email or password is incorrect' } })
 
+    if(!exist.verified) return res.status(400).json({message : "Please verify your Email"});
     const validPass = await bcrypt.compare(req.body.password, exist.password);
     if (!validPass) return res.status(400).json({ message: { error: 'Email or password is incorrect' } })
     //JWt
@@ -197,7 +198,7 @@ router.patch('/admin', verify_JWT, async (req, res, next) => {
     }
 }
 );
-router.post('/admin/profile', verify_JWT, upload.single('profilePic'), (req, res, next) => {
+router.post('/admin/profile', upload.single('profilePic'), (req, res, next) => {
     try {
         const id = req.user._id;
         Admin.findOneAndUpdate({ _id: id }, { "profileURL": req.file.path })
@@ -233,7 +234,7 @@ const admin_JWT = require('../validation/adminjwt')
 
 
 
-router.use('/admin/add', async (req, res) => {
+router.post('/admin/add', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(req.body.password, salt);
     const admin = new Admin({
@@ -249,7 +250,9 @@ router.use('/admin/add', async (req, res) => {
 })
 
 
-
+router.get("/test",(req,res)=>{
+    res.render('reset');
+})
 
 
 

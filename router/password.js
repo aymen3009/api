@@ -1,14 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
-const Admin = require('../models/admin');
-const multer = require('multer');
-const { verifyemail } = require('../controllers/email')
 const bcrypt = require('bcryptjs');
 const JWT = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
-const path = require('path');
 
 const transporte = nodemailer.createTransport({
     host: 'mail.welcomedjerba.tn',

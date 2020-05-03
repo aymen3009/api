@@ -7,14 +7,13 @@ const basic_JWT = require('../validation/adminjwt');
 const baseUrl = 'http://192.168.100.50:8000/student/';
 
 
-
 router.get("/getstudent/:id", basic_JWT, (req, res, next) => {
     let id = req.params.id;
     try {
         let url = 'http://192.168.100.50:8000/student/get/' + id
         axios.get(url)
             .then(response => {
-                return res.status(200).send(response);
+                return res.status(200).send(response.data);
             })
             .catch(err => {
                 return res.status(500).send(err);
@@ -28,14 +27,13 @@ router.get("/getstudent/:id", basic_JWT, (req, res, next) => {
 
 });
 
-router.get('/getallelection', basic_JWT, (req, res, next) => {
+router.get('/getallelection',basic_JWT,  (req, res, next) => {
     try {
         let url = baseUrl + 'getallElection'
         axios.get(url)
-            //.then(response=>JSON.stringify(response))
             .then(response => {
 
-                return res.status(200).send(JSON.stringify(response.data));
+                return res.status(200).send(response.data);
             })
     } catch (err) {
         return res.status(400).send(err);
@@ -47,7 +45,7 @@ router.get('/getallstudent', basic_JWT, (req, res, next) => {
     try {
         let url = baseUrl + 'getallStudent';
         axios.get(url).then(response => {
-            return res.status(200).send(JSON.stringify(response.data));
+            return res.status(200).send(response.data);
         })
     } catch (err) {
         return res.status(400).send(err);
@@ -58,7 +56,7 @@ router.get('/getallcondidate', basic_JWT, (req, res, next) => {
     try {
         let url = baseUrl + 'getallcondidate';
         axios.get(url).then(response => {
-            return res.status(200).send(JSON.stringify(response.data));
+            return res.status(200).send(response.data);
         })
     } catch (err) {
         return res.status(400).send(err);
@@ -69,7 +67,7 @@ router.get('/getallsurv', basic_JWT, (req, res, next) => {
     try {
         let url = baseUrl + 'getallsurv';
         axios.get(url).then(response => {
-            return res.status(200).send(JSON.stringify(response.data));
+            return res.status(200).send(response.data);
         })
     } catch (err) {
         return res.status(400).send(err);
@@ -81,7 +79,7 @@ router.get('/getcandidate/:id', basic_JWT, (req, res, next) => {
     try {
         let url = baseUrl + 'getcandidate/' + id;
         axios.get(url).then(response => {
-            return res.status(200).send(JSON.stringify(response.data));
+            return res.status(200).send(response.data);
         })
     } catch (err) {
         return res.status(400).send(err);
@@ -93,7 +91,7 @@ router.get('/getmyelections/:id', basic_JWT, (req, res, next) => {
     try {
         let url = baseUrl + 'getmyelections/' + id;
         axios.get(url).then(response => {
-            return res.status(200).send(JSON.stringify(response.data));
+            return res.status(200).send(response.data);
         })
     } catch (err) {
         return res.status(400).send(err);
@@ -105,7 +103,7 @@ router.get('/getmysurvs/:id', basic_JWT, (req, res, next) => {
     try {
         let url = baseUrl + 'getmysurvs/' + id;
         axios.get(url).then(response => {
-            return res.status(200).send(JSON.stringify(response.data));
+            return res.status(200).send(response.data);
         })
     } catch (err) {
         return res.status(400).send(err);
@@ -123,24 +121,24 @@ router.post('/addcondidate', verify_JWT, (req, res, next) => {
         }
         let url = baseUrl + 'addcondidate';
         axios.post(url, obj).then(response => {
-            return res.status(200).send(JSON.stringify(response.data));
+            return res.status(200).send(response.data);
         })
     } catch (err) {
         return res.status(400).send(err);
 
     }
 });
-router.post('/dnomination', verify_JWT, (req, res, next) => {
+router.delete('/dnomination', verify_JWT, (req, res, next) => {
     try {
         let obj = {
-            id: req.id,
+            ide: req.ide,
             ids: req.ids
 
 
         }
         let url = baseUrl + 'dnomination';
         axios.post(url, obj).then(response => {
-            return res.status(200).send(JSON.stringify(response.data));
+            return res.status(200).send(response.data);
         })
     } catch (err) {
         return res.status(400).send(err);
@@ -158,7 +156,7 @@ router.post('/vote', verify_JWT, (req, res, next) => {
         }
         let url = baseUrl + 'vote';
         axios.post(url, obj).then(response => {
-            return res.status(200).send(JSON.stringify(response.data));
+            return res.status(200).send(response.data);
         })
     } catch (err) {
         return res.status(400).send(err);
@@ -176,7 +174,7 @@ router.post('/votesur', verify_JWT, (req, res, next) => {
         }
         let url = baseUrl + 'votesur';
         axios.post(url, obj).then(response => {
-            return res.status(200).send(JSON.stringify(response.data));
+            return res.status(200).send(response.data);
         })
     } catch (err) {
         return res.status(400).send(err);
@@ -197,11 +195,12 @@ router.post('/addelection', admin_JWT, (req, res, next) => {
             ns: req.ns,
             nf: req.nf,
             dnf: req.dnf,
-            mvps: req.mvps
+            mvps: req.mvps,
+            sender: req.sender
         }
         let url = baseUrl + 'addelection';
         axios.post(url, obj).then(response => {
-            return res.status(200).send(JSON.stringify(response.data));
+            return res.status(200).send(response.data);
         })
     } catch (err) {
         return res.status(400).send(err);
@@ -223,7 +222,7 @@ router.post('/addsurv', basic_JWT, (req, res, next) => {
         }
         let url = baseUrl + 'addsurv';
         axios.post(url, obj).then(response => {
-            return res.status(200).send(JSON.stringify(response.data));
+            return res.status(200).send(response.data);
         })
     } catch (err) {
         return res.status(400).send(err);
@@ -240,23 +239,23 @@ router.delete('/removeone', basic_JWT, (req, res, next) => {
         }
         let url = baseUrl + 'removeone';
         axios.post(url, obj).then(response => {
-            return res.status(200).send(JSON.stringify(response.data));
+            return res.status(200).send(response.data);
         })
     } catch (err) {
         return res.status(400).send(err);
 
     }
 });
-router.delete('/removeone', admin_JWT, (req, res, next) => {
+router.delete('/removelection', admin_JWT, (req, res, next) => {
     try {
 
 
         let obj = {
             id: req.id
         }
-        let url = baseUrl + 'removeone';
+        let url = baseUrl + 'removelection';
         axios.post(url, obj).then(response => {
-            return res.status(200).send(JSON.stringify(response.data));
+            return res.status(200).send(response.data);
         })
     } catch (err) {
         return res.status(400).send(err);
